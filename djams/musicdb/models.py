@@ -17,3 +17,10 @@ class Album(models.Model):
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     year = models.DateField()
 
+class Song(models.Model):
+    title = models.CharField(max_length=200)
+    duration = models.FloatField()
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    playlist = models.ManyToManyField(Playlist)
