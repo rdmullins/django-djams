@@ -20,7 +20,7 @@ class Album(models.Model):
 class Song(models.Model):
     title = models.CharField(max_length=200)
     duration = models.FloatField()
-    album = models.ForeignKey(Album, on_delete=models.CASCADE)
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    album = models.ManyToManyField(Album)
+    artist = models.ManyToManyField(Artist)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     playlist = models.ManyToManyField(Playlist)
