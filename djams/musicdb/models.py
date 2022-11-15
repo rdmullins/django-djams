@@ -12,3 +12,8 @@ class Artist(models.Model):
     image = models.URLField(max_length=500)
     bio = models.TextField()
 
+class Album(models.Model):
+    name = models.CharField(max_length=200)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    year = models.DateField()
+
