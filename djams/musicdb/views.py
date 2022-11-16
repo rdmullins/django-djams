@@ -71,17 +71,18 @@ class PlaylistAPIView(APIView):
 
     def delete(self, request, pk=None, format=None):
         playlist_delete = Playlist.objects.get(pk=pk)
-        data = request.data
-        serializer = PlaylistSerializer(instance=playlist_delete, data=data, partial=True)
+        playlist_delete.delete()
+        # data = request.data
+        # serializer = PlaylistSerializer(instance=playlist_delete, data=data, partial=True)
 
-        serializer.is_valid(raise_exception=True)
-        serializer.delete()
+        # serializer.is_valid(raise_exception=True)
+        # serializer.delete
 
         response = Response()
 
         response.data = {
             "message": "Playlist Deleted.",
-            "data": serializer.data,
+            # "data": serializer.data,
         }
 
         return response
