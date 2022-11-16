@@ -24,7 +24,7 @@ class PlaylistAPIView(APIView):
             data = Playlist.objects.all()
             serializer = PlaylistSerializer(data, many=True)
 
-            return Response(serializer.data)
+        return Response(serializer.data)
 
 # Create Functionality
 
