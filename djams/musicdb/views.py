@@ -8,6 +8,8 @@ from rest_framework.response import Response
 # Create your views here.
 class PlaylistAPIView(APIView):
 
+# Read Functionality
+
     def get_object(self, pk):
         try:
             return Playlist.objects.get(pk=pk)
@@ -23,3 +25,25 @@ class PlaylistAPIView(APIView):
             serializer = PlaylistSerializer(data, many=True)
 
             return Response(serializer.data)
+
+# Create Functionality
+
+    def post(self, request, format=None):
+        data = request.data
+        serializer = PlaylistSerializer(data=data)
+
+        # Check Validity
+        serializer.is_valid(raise_exception=True)
+
+        # Save New Playlist
+        serializer.save()
+        
+        # Send Frontend Result
+        response = Response()
+
+        response.data = {
+            "message": "Playlist Created Successfully"
+            "data": serializer.data,
+        }
+
+        return response
