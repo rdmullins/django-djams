@@ -50,4 +50,39 @@ class PlaylistAPIView(APIView):
 
 # Update Functionality
 
-#    def put()
+    def put(self, request, pk=None, format=None):
+        playlist_update = Playlist.objects.get(pk=pk)
+        data = request.data
+        serializer = PlaylistSerializer(instance=playlist_update, data=data, partial=True)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        response = Response()
+
+        response.data = {
+            "message": "Playlist Updated Successfully.",
+            "data": serializer.data,
+        }
+
+        return response
+
+# Delete Functionality
+
+    def delete(self, request, pk=None, format=None):
+        playlist_delete = Playlist.objects.get(pk=pk)
+        playlist_delete.delete()
+        # data = request.data
+        # serializer = PlaylistSerializer(instance=playlist_delete, data=data, partial=True)
+
+        # serializer.is_valid(raise_exception=True)
+        # serializer.delete
+
+        response = Response()
+
+        response.data = {
+            "message": "Playlist Deleted.",
+            # "data": serializer.data,
+        }
+
+        return response
