@@ -173,3 +173,85 @@ class AlbumAPIView(APIView):
 
         return response
 
+# Artist Table
+
+class ArtistAPIView(APIView):
+
+# Read Functionality
+
+    def get_object(self, pk):
+        try:
+            return Artist.objects.get(pk=pk)
+        except Artist.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk=None, format=None):
+        if pk:
+            data = self.get_object(pk)
+            serializer = ArtistSerializer(data)
+        else:
+            data = Artist.objects.all()
+            serializer = ArtistSerializer(data, many=True)
+
+        return Response(serializer.data)
+
+# Create Functionality
+
+    def post(self, request, format=None):
+        data = request.data
+        serializer = ArtistSerializer(data=data)
+
+        # Check Validity
+        serializer.is_valid(raise_exception=True)
+
+        # Save New Artist
+        serializer.save()
+        
+        # Send Frontend Result
+        response = Response()
+
+        response.data = {
+            "message": "Artist Created Successfully",
+            "data": serializer.data,
+        }
+
+        return response
+
+# Update Functionality
+
+    def put(self, request, pk=None, format=None):
+        artist_update = Artist.objects.get(pk=pk)
+        data = request.data
+        serializer = ArtistSerializer(instance=artist_update, data=data, partial=True)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        response = Response()
+
+        response.data = {
+            "message": "Artist Updated Successfully.",
+            "data": serializer.data,
+        }
+
+        return response
+
+# Delete Functionality
+
+    def delete(self, request, pk=None, format=None):
+        artist_delete = Artist.objects.get(pk=pk)
+        artist_delete.delete()
+        # data = request.data
+        # serializer = PlaylistSerializer(instance=playlist_delete, data=data, partial=True)
+
+        # serializer.is_valid(raise_exception=True)
+        # serializer.delete
+
+        response = Response()
+
+        response.data = {
+            "message": "Artist Deleted.",
+            # "data": serializer.data,
+        }
+
+        return response
