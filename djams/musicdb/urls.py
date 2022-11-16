@@ -8,4 +8,6 @@ urlpatterns = [
     path("album/<str:pk>/", AlbumAPIView.as_view()),
     path("artist/", ArtistAPIView.as_view()),
     path("artist/<str:pk>/", ArtistAPIView.as_view()),
+    path("genre/", GenreAPIView.as_view()),
+    path("genre/<str:pk>/", GenreAPIView.as_view())
 ]
