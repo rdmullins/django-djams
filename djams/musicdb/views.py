@@ -338,3 +338,86 @@ class GenreAPIView(APIView):
         }
 
         return response
+
+# Song Table
+
+class SongAPIView(APIView):
+
+# Read Functionality
+
+    def get_object(self, pk):
+        try:
+            return Song.objects.get(pk=pk)
+        except Song.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk=None, format=None):
+        if pk:
+            data = self.get_object(pk)
+            serializer = SongSerializer(data)
+        else:
+            data = Song.objects.all()
+            serializer = SongSerializer(data, many=True)
+
+        return Response(serializer.data)
+
+# Create Functionality
+
+    def post(self, request, format=None):
+        data = request.data
+        serializer = SongSerializer(data=data)
+
+        # Check Validity
+        serializer.is_valid(raise_exception=True)
+
+        # Save New Song
+        serializer.save()
+        
+        # Send Frontend Result
+        response = Response()
+
+        response.data = {
+            "message": "Song Created Successfully",
+            "data": serializer.data,
+        }
+
+        return response
+
+# Update Functionality
+
+    def put(self, request, pk=None, format=None):
+        song_update = Song.objects.get(pk=pk)
+        data = request.data
+        serializer = SongSerializer(instance=song_update, data=data, partial=True)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        response = Response()
+
+        response.data = {
+            "message": "Song Updated Successfully.",
+            "data": serializer.data,
+        }
+
+        return response
+
+# Delete Functionality
+
+    def delete(self, request, pk=None, format=None):
+        song_delete = Song.objects.get(pk=pk)
+        song_delete.delete()
+        # data = request.data
+        # serializer = PlaylistSerializer(instance=playlist_delete, data=data, partial=True)
+
+        # serializer.is_valid(raise_exception=True)
+        # serializer.delete
+
+        response = Response()
+
+        response.data = {
+            "message": "Song Deleted.",
+            # "data": serializer.data,
+        }
+
+        return response
