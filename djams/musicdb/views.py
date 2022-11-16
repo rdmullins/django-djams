@@ -4,8 +4,14 @@ from rest_framework.views import APIView
 from .models import *
 from .serializers import *
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
 # Create your views here.
+
+class AlbumViewSet(ModelViewSet):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
+    http_method_names = ["get", "post"]
 
 # Playlist Table 
 
