@@ -50,4 +50,19 @@ class PlaylistAPIView(APIView):
 
 # Update Functionality
 
-#    def put()
+    def put(self, request, pk=None, format=None):
+        playlist_update = Playlist.objects.get(pk=pk)
+        data = request.data
+        serializer = PlaylistSerializer(instance=playlist_update, data=data, partial=True)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        response = Response()
+
+        response = {
+            "message": "Playlist Updated Successfully.",
+            "data": serializer.data,
+        }
+
+        return response
