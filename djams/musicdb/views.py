@@ -255,3 +255,86 @@ class ArtistAPIView(APIView):
         }
 
         return response
+
+# Genre Table
+
+class GenreAPIView(APIView):
+
+# Read Functionality
+
+    def get_object(self, pk):
+        try:
+            return Genre.objects.get(pk=pk)
+        except Genre.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk=None, format=None):
+        if pk:
+            data = self.get_object(pk)
+            serializer = GenreSerializer(data)
+        else:
+            data = Genre.objects.all()
+            serializer = GenreSerializer(data, many=True)
+
+        return Response(serializer.data)
+
+# Create Functionality
+
+    def post(self, request, format=None):
+        data = request.data
+        serializer = GenreSerializer(data=data)
+
+        # Check Validity
+        serializer.is_valid(raise_exception=True)
+
+        # Save New Genre
+        serializer.save()
+        
+        # Send Frontend Result
+        response = Response()
+
+        response.data = {
+            "message": "Genre Created Successfully",
+            "data": serializer.data,
+        }
+
+        return response
+
+# Update Functionality
+
+    def put(self, request, pk=None, format=None):
+        genre_update = Genre.objects.get(pk=pk)
+        data = request.data
+        serializer = GenreSerializer(instance=genre_update, data=data, partial=True)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        response = Response()
+
+        response.data = {
+            "message": "Genre Updated Successfully.",
+            "data": serializer.data,
+        }
+
+        return response
+
+# Delete Functionality
+
+    def delete(self, request, pk=None, format=None):
+        genre_delete = Genre.objects.get(pk=pk)
+        genre_delete.delete()
+        # data = request.data
+        # serializer = PlaylistSerializer(instance=playlist_delete, data=data, partial=True)
+
+        # serializer.is_valid(raise_exception=True)
+        # serializer.delete
+
+        response = Response()
+
+        response.data = {
+            "message": "Genre Deleted.",
+            # "data": serializer.data,
+        }
+
+        return response
