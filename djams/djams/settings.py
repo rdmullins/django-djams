@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'musicdb',
     'corsheaders',
+    'drf_multiple_model',
 ]
 
 MIDDLEWARE = [

@@ -5,6 +5,8 @@ from .models import *
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from drf_multiple_model.views import ObjectMultipleModelAPIView
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -17,6 +19,58 @@ class SongViewSet(ModelViewSet):
     queryset = Song.objects.all()
     serializer_class = SongViewSetSerializer
     http_method_names = ["get", "post"]
+
+# class AlbumTracksViewSet(ObjectMultipleModelAPIView):
+#     querylist = [
+#         {'queryset': Album.objects.all(), 'serializer_class': AlbumViewSetSerializer},
+#         {'queryset': Song.objects.all(), 'serializer_class': SongViewSetSerializer},]
+#     # queryset = Album.objects.all()
+#     # serializer_class = AlbumTracksViewSetSerializer
+#     http_method_names = ["get", "post"]
+
+def AlbumTracksView(request):
+    htmlinsert = ""
+    albums = list(Album.objects.all())
+    for item in albums:
+        songlist = ""
+        songs = list(Song.objects.filter(album=str(item.id)))
+        for song in songs:
+            songlist = songlist + "<li>" + str(song.title) + "</li>"
+        htmlinsert = htmlinsert + "<li>" + str(item.name) + " (" + str(item.artist.name) + ")" + "<ul>" + songlist + "</ul></li>"
+    html = """
+    <html>
+    <body>
+        <h1>Albums and Tracks in the Database:</h1>
+        <ul> 
+            %s 
+        </ul>
+    </body>
+    </html>""" % htmlinsert
+
+    return HttpResponse(html)
+
+def PlaylistTracksView(request):
+    htmlinsert = ""
+    playlists = list(Playlist.objects.all())
+    for item in playlists:
+        songlist = ""
+        songs = list(Song.objects.filter(playlist=str(item.id)))
+        for song in songs:
+            # artist_name = list(Artist.objects.filter(name=str(song.id)))
+            songlist = songlist + "<li>" + str(song.title) + "</li>"
+        htmlinsert = htmlinsert + "<li>" + str(item.title)  + "<ul>" + songlist + "</ul></li>"
+    html = """
+    <html>
+    <body>
+        <h1>Playlists and Tracks in the Database:</h1>
+        <ul> 
+            %s 
+        </ul>
+    </body>
+    </html>""" % htmlinsert
+
+    return HttpResponse(html)
+
 
 # Playlist Table 
 

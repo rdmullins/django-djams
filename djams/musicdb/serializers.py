@@ -30,17 +30,47 @@ class SongSerializer(serializers.ModelSerializer):
         model = Song
         fields = "__all__"
 
+class ArtistSerializerForSongView(serializers.ModelSerializer):
+    class Meta:
+        model = Artist
+        fields = ("name",)
+
+class AlbumSerializerForSongView(serializers.ModelSerializer):
+    class Meta:
+        model = Album
+        fields = ("name",)
+
+class GenreSerializerForSongView(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ("genre",)
+
+class PlaylistSerializerForSongView(serializers.ModelSerializer):
+    class Meta:
+        model = Playlist
+        fields = ("title",)
+
 class SongViewSetSerializer(serializers.ModelSerializer):
-    artist = ArtistSerializer(many=True)
-    album = AlbumSerializer(many=True)
-    genre = GenreSerializer()
-    playlist = PlaylistSerializer(many=True)
+    artist = ArtistSerializerForSongView(many=True)
+    album = AlbumSerializerForSongView(many=True)
+    genre = GenreSerializerForSongView()
+    playlist = PlaylistSerializerForSongView(many=True)
     class Meta:
         model = Song
         fields = "__all__"
 
 class AlbumViewSetSerializer(serializers.ModelSerializer):
     artist = ArtistSerializer()
+    # song = SongViewSetSerializer(many=True)
     class Meta:
         model = Album
+        # fields = ["__all__", Song.title,]
         fields = "__all__"
+
+class AlbumTracksViewSetSerializer(serializers.ModelSerializer):
+    artist = ArtistSerializer()
+    album = AlbumSerializer()
+    #song = SongViewSetSerializer(many=True)
+    class Meta:
+        model = Song
+        fields = ("title", "album", "artist")
