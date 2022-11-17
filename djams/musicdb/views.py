@@ -10,7 +10,12 @@ from rest_framework.viewsets import ModelViewSet
 
 class AlbumViewSet(ModelViewSet):
     queryset = Album.objects.all()
-    serializer_class = AlbumSerializer
+    serializer_class = AlbumViewSetSerializer
+    http_method_names = ["get", "post"]
+
+class SongViewSet(ModelViewSet):
+    queryset = Song.objects.all()
+    serializer_class = SongViewSetSerializer
     http_method_names = ["get", "post"]
 
 # Playlist Table 
