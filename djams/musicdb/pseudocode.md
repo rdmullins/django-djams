@@ -14,7 +14,7 @@
 
 |Endpoint|Functionality|
 |----|---|
-|/api/playlist/| Create, Read - Get and Post for all playlists|
+|/api/playlist/| Create, Read - Get and Post for all playlists (uses custom field)|
 |/api/playlist/id| Read, Update, Delete - Get, Put, Delete request on playlist with id specified|
 |/api/album/| Create, Read - Get and Post for all albums|
 |/api/album/id| Read, Update, Delete - Get, Put, Delete request on album with id specified|
@@ -22,3 +22,7 @@
 |/api/artist/id| Read, Update, Delete - Get, Put, Delete request on artist with id specified|
 |/api/genre/| Create, Read - Get and Post for all genres|
 |/api/genre/id| Read, Update, Delete - Get, Put, Delete request on genre with id specified|
+|/api/song/| Create, Read - Get and Post for all songs|
+|/api/song/id|Read, Update, Delete - Get, Put, Delete request on genre with id specified|
+|/api/albumtracks|Read - Formatted/Nested Http Response with all albums with track listings|
+|/api/playlisttracks| Read - Formatted/Nested Http Response with all playlists and track listings|
