@@ -1,7 +1,10 @@
 from rest_framework import serializers
 from .models import *
+from .fields import *
 
 class PlaylistSerializer(serializers.ModelSerializer):
+    name = ArtistListingField(many=True, read_only=True)
+    playlist_list = PlaylistListingField(many=True, read_only=True, label="Songs")
     class Meta:
         model = Playlist
         fields = "__all__"
