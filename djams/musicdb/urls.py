@@ -6,9 +6,11 @@ from rest_framework import routers
 router = routers.SimpleRouter()
 router.register(r"albums", AlbumViewSet)
 router.register(r"songs", SongViewSet)
-#router.register(r"albumtracks", AlbumTracksViewSet.as_view(), basename="albumtracks")
+#router.register(r"albumtracks_multiple_models", AlbumTracksViewSetMultModels, basename="albumtracks")
 
 urlpatterns = [
+    path("albumtracks_multiple_models/", AlbumTracksViewSetMultModels.as_view()),
+
     path("playlist/", PlaylistAPIView.as_view()),
     path("playlist/<str:pk>/", PlaylistAPIView.as_view()),
     path("album/", AlbumAPIView.as_view()),
