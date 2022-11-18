@@ -20,13 +20,15 @@ class SongViewSet(ModelViewSet):
     serializer_class = SongViewSetSerializer
     http_method_names = ["get", "post"]
 
-# class AlbumTracksViewSet(ObjectMultipleModelAPIView):
-#     querylist = [
-#         {'queryset': Album.objects.all(), 'serializer_class': AlbumViewSetSerializer},
-#         {'queryset': Song.objects.all(), 'serializer_class': SongViewSetSerializer},]
-#     # queryset = Album.objects.all()
-#     # serializer_class = AlbumTracksViewSetSerializer
-#     http_method_names = ["get", "post"]
+class AlbumTracksViewSetMultModels(ObjectMultipleModelAPIView):
+    querylist = [
+        {'queryset': Album.objects.all(), 'serializer_class': AlbumViewSetSerializer},
+        {'queryset': Song.objects.all(), 'serializer_class': SongViewSetSerializer},]
+    # queryset = Album.objects.all()
+    # serializer_class = AlbumTracksViewSetSerializer
+    http_method_names = ["get", "post"]
+    # def get_extra_actions():
+    #     pass
 
 def AlbumTracksView(request):
     htmlinsert = ""
